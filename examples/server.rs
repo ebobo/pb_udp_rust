@@ -10,13 +10,17 @@ use proto::EchoMessage;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Bind to the server on port 9080
     let socket = UdpSocket::bind("127.0.0.1:9080").await?;
     println!("Server listening on 127.0.0.1:9080");
 
+    // Create a buffer to receive data
     let mut buf = [0; 1024];
 
     loop {
+        // Receive data from the socket
         let (len, addr) = socket.recv_from(&mut buf).await?;
+        // Decode the received data into an EchoMessage
         let echo_message = EchoMessage::decode(&buf[..len])?;
 
         println!("Received from {}: {:?}", addr, echo_message);

@@ -1,6 +1,6 @@
 # Project Name
 
-simple protobuf udp example
+simple protobuf udp example use Rust
 
 ## Description
 
