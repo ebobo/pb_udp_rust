@@ -16,6 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Client ID: {}", client_id);
 
     // Bind to a random port
+    // ? is used to propagate the error if it occurs and return from the function
     let socket = UdpSocket::bind("127.0.0.1:0").await?;
     // Connect to the server on port 9080
     socket.connect("127.0.0.1:9080").await?;
@@ -25,7 +26,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         content: format!("Hello, server ! from client {}", client_id),
     };
 
-    // Encode the message into a buffer
+    // Allocating a Buffer to store the encoded message
+    // message.encoded_len() calculates the number of bytes required to encode the message
     let mut buf = BytesMut::with_capacity(message.encoded_len());
     // Serializing the message into a binary format
     message.encode(&mut buf)?;
